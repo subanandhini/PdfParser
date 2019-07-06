@@ -3,6 +3,7 @@ package com.altimetrik.pdfParser.emailProcessing;
 
 import java.io.File;
 import java.io.InputStream;
+import java.nio.file.FileSystemException;
 import java.nio.file.StandardCopyOption;
 import java.util.Properties;
 
@@ -85,7 +86,12 @@ public static String name;
 						File targetFile = new File("C:\\PdfInvoiceFile\\"+ bodyPart.getFileName());
 						name= bodyPart.getFileName();
 						System.out.println(targetFile);
-						java.nio.file.Files.copy(stream, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+						try {
+						java.nio.file.Files.copy(stream, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);}
+						catch(FileSystemException e) {
+							System.out.println("This Pdf is already parsed");
+							System.exit(0);
+						}
 						 IOUtils.closeQuietly(stream);
 					}
 				}

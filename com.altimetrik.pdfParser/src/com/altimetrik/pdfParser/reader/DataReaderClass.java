@@ -1,12 +1,13 @@
 package com.altimetrik.pdfParser.reader;
 
 public class DataReaderClass {
-public String invoiceNumber;
-public String invoiceDate;
-public String customerPO;
-public String address;
-public String totalInvoice;
+private String invoiceNumber;
+private String invoiceDate;
+private String customerPO;
+private String address;
+private String totalInvoice;
 
+TextReaderClass TextReaderClass= new TextReaderClass();
 public String findInvoiceNumber(String invoiceNumber) {
 	
 	if (TextReaderClass.text.contains(invoiceNumber)) {
@@ -37,8 +38,15 @@ public String findCustomerPO(String customerPOStr) {
 
 public String findAddress(String addressStr) {
 	if (TextReaderClass.text.contains(addressStr)) {
+		try {
 		address = TextReaderClass.text.substring(TextReaderClass.text.indexOf(addressStr) + addressStr.length(),
-				TextReaderClass.text.indexOf("Remit To"));
+				TextReaderClass.text.indexOf("Remit To"));}
+		catch(StringIndexOutOfBoundsException e) {
+			System.out.println("");
+		}
+		finally {
+			
+		}
 		return address.trim();
 	} else
 		return "Address not found for shiping.";
@@ -56,5 +64,6 @@ public String findTotalInvoice(String totalInvoiceStr) {
 	} else
 		return "Total Invoice not found.";
 }
+
 
 }
